@@ -37,6 +37,19 @@
   overflow-y: auto;
 }
 
+.toolSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
 .aiSuggestion {
   background: #f8fafc;
   padding: 1.25rem;

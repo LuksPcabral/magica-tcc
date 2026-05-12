@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import ReferenceGenerator from '@/components/ReferenceGenerator'
 import styles from './editor.module.css'
 
 export default function EditorPage() {
@@ -82,6 +83,12 @@ export default function EditorPage() {
         </div>
         
         <div className={styles.sideContent}>
+          {/* Novo Bloco: Gerador de Referências */}
+          <section className={styles.toolSection}>
+            <h4 className={styles.sectionTitle}>Gerador de Referência</h4>
+            <ReferenceGenerator />
+          </section>
+
           <div className={styles.aiSuggestion}>
             <h4>Citação Sugerida</h4>
             <p>"A inteligência artificial não substitui o humano, mas amplia sua capacidade de síntese..." (SILVA, 2024)</p>
