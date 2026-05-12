@@ -99,6 +99,15 @@ export default function Home() {
               <span>Citações Automáticas</span>
             </div>
           </div>
+
+          <div className={styles.integritySection}>
+            <h4>Integridade Acadêmica</h4>
+            <p>
+              Seguimos as diretrizes globais para uso de IA na educação. O <strong>Mágica do TCC</strong> é um 
+              assistente de pesquisa e escrita, projetado para expandir sua capacidade intelectual, 
+              não para substituí-la.
+            </p>
+          </div>
         </section>
       ) : (
         <section className={`${styles.chatInterface} animate-fade`}>

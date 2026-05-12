@@ -311,3 +311,26 @@
   .title { font-size: 2.5rem; }
   .features { flex-direction: column; gap: 16px; }
 }
+
+.integritySection {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: rgba(9, 132, 227, 0.05);
+  border: 1px solid rgba(9, 132, 227, 0.1);
+  border-radius: var(--radius-lg);
+  max-width: 600px;
+}
+
+.integritySection h4 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.integritySection p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
