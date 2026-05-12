@@ -19,13 +19,23 @@ export default function Home() {
     setMessages(newMessages)
     setInputValue('')
 
-    // Simulação de resposta da IA
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
-        text: 'Interessante! Com base nisso, aqui estão 3 caminhos possíveis: \n1. Abordagem Prática \n2. Estudo de Caso \n3. Revisão Bibliográfica. \n\nQual desses te atrai mais?' 
-      }])
-    }, 1000)
+    // Chamada real para a API do Gemini
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages }),
+      });
+      const data = await response.json();
+      
+      if (data.text) {
+        setMessages(prev => [...prev, { role: 'ai', text: data.text }]);
+      } else {
+        throw new Error(data.error || 'Erro desconhecido');
+      }
+    } catch (error) {
+      setMessages(prev => [...prev, { role: 'ai', text: 'Ops, tive um problema ao me conectar. Verifique suas chaves de API.' }]);
+    }
   }
 
   return (
@@ -41,7 +51,12 @@ export default function Home() {
         <nav className={styles.nav}>
           <a href="#">Como Funciona</a>
           <a href="#">Normas ABNT</a>
-          <button className={styles.loginBtn}>Entrar</button>
+          <button 
+            className={styles.loginBtn}
+            onClick={() => window.location.href = '/login'}
+          >
+            Entrar
+          </button>
         </nav>
       </header>
 

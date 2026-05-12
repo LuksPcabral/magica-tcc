@@ -226,3 +226,13 @@
 .utilityBar button:hover {
   color: var(--primary);
 }
+
+.loading {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--primary);
+  background: #f1f5f9;
+}

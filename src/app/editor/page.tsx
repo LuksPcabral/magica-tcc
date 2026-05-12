@@ -1,15 +1,76 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { 
   Save, Download, Settings, FileText, 
   Search, Wand2, HelpCircle, Layout,
   Bold, Italic, AlignLeft, AlignCenter, AlignJustify
 } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 import styles from './editor.module.css'
 
 export default function EditorPage() {
-  const [content, setContent] = useState(`UNIVERSIDADE FEDERAL DO BRASIL\nCURSO DE TECNOLOGIA DA INFORMAÇÃO\n\n\n\nNOME DO ALUNO\n\n\n\nTÍTULO DO TRABALHO DE CONCLUSÃO DE CURSO\n\n\n\n\n\n\n\n\n\nCidade - UF\n2026`)
+  const router = useRouter()
+  const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [user, setUser] = useState<any>(null)
+
+  // Verificar autenticação
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login')
+      } else {
+        setUser(user)
+        loadDocument(user.id)
+      }
+    }
+    checkUser()
+  }, [router])
+
+  // Carregar documento do Supabase
+  const loadDocument = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('trabalhos')
+      .select('conteudo')
+      .eq('user_id', userId)
+      .single()
+
+    if (data) {
+      setContent(data.conteudo)
+    } else {
+      setContent(`UNIVERSIDADE FEDERAL DO BRASIL\nCURSO DE TECNOLOGIA DA INFORMAÇÃO\n\n\n\nNOME DO ALUNO\n\n\n\nTÍTULO DO TRABALHO DE CONCLUSÃO DE CURSO\n\n\n\n\n\n\n\n\n\nCidade - UF\n2026`)
+    }
+    setLoading(false)
+  }
+
+  // Salvar documento
+  const saveDocument = useCallback(async (newContent: string) => {
+    if (!user) return
+    setSaving(true)
+    
+    const { error } = await supabase
+      .from('trabalhos')
+      .upsert({ 
+        user_id: user.id, 
+        conteudo: newContent,
+        updated_at: new Error().toISOString() 
+      })
+
+    setSaving(false)
+  }, [user])
+
+  // Auto-save debounced
+  useEffect(() => {
+    if (!content || loading) return
+    const timeout = setTimeout(() => saveDocument(content), 2000)
+    return () => clearTimeout(timeout)
+  }, [content, saveDocument, loading])
+
+  if (loading) return <div className={styles.loading}>Carregando seu TCC...</div>
 
   return (
     <div className={styles.wrapper}>
@@ -58,7 +119,9 @@ export default function EditorPage() {
           </div>
 
           <div className={styles.actionGroup}>
-            <button className={styles.saveBtn}><Save size={18} /> Salvar</button>
+            <button className={styles.saveBtn}>
+              <Save size={18} /> {saving ? 'Salvando...' : 'Salvo'}
+            </button>
             <button className={styles.downloadBtn}><Download size={18} /> Exportar PDF</button>
           </div>
         </header>
