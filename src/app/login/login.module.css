@@ -46,13 +46,13 @@
   line-height: 1.5;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-input {
+.input {
   padding: 14px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -61,11 +61,11 @@ input {
   transition: border-color 0.2s;
 }
 
-input:focus {
+.input:focus {
   border-color: var(--primary);
 }
 
-button {
+.button {
   padding: 14px;
   background: var(--primary);
   color: white;
@@ -79,12 +79,12 @@ button {
   transition: all 0.2s;
 }
 
-button:hover:not(:disabled) {
+.button:hover:not(:disabled) {
   background: var(--primary-dark);
   transform: translateY(-2px);
 }
 
-button:disabled {
+.button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }

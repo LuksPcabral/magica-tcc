@@ -41,15 +41,16 @@ export default function LoginPage() {
         <h3>Entrar na sua conta</h3>
         <p>Enviaremos um link mágico para o seu e-mail. Sem senhas necessárias!</p>
 
-        <form onSubmit={handleLogin}>
+        <form className={styles.form} onSubmit={handleLogin}>
           <input 
             type="email" 
             placeholder="Seu e-mail acadêmico" 
+            className={styles.input}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <button type="submit" disabled={loading}>
+          <button type="submit" className={styles.button} disabled={loading}>
             {loading ? 'Enviando...' : 'Receber Link Mágico'} <ArrowRight size={18} />
           </button>
         </form>

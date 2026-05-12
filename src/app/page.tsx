@@ -11,7 +11,7 @@ export default function Home() {
   ])
   const [inputValue, setInputValue] = useState('')
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!inputValue.trim()) return
 
